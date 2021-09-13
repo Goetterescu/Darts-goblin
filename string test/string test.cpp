@@ -88,7 +88,7 @@ void calc() {
 }
 
 	int main() {
-		cout << "Welcome to my program!" << endl << "   v0.1" << endl;
+		cout << "Welcome to my string test!" << endl << "   v0.2" << endl;
 		getscore();
 		
 		
