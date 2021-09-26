@@ -7,8 +7,11 @@ using namespace std;
 // Vars for setup
 int players;
 bool mode;
-int rounds = 3; // Amount of rounds for each game-cycle
+int rounds = 20; // Amount of rounds for each game-cycle
 int current_round; // Counter for the current game-cycle
+
+int i; 
+int sum1 = 0, sum2 = 0, sum3 = 0, sum4 = 0; // Total player score
 
 // Player names
 string p1, p2, p3, p4;
@@ -23,14 +26,6 @@ int p1s[25], p2s[25], p3s[25], p4s[25];
 
 // Endscore for each player
 int p1end, p2end, p3end, p4end;
-
-// Get info about amount of players and gamemode
-void setup() {
-    cout << "Players:  ";
-    cin >> players;
-    cout << endl << "Game mode (Regular[1]/Highscore[0]):  ";
-    cin >> mode;
-}
 
 // Get the names of each player
 void getnames() {
@@ -125,28 +120,36 @@ void playone() {
     p1s[current_round] += s1*boni1;
     p1s[current_round] += s2*boni2;
     p1s[current_round] += s3*boni3;
-    cout << endl << p1 << " has scored " << (s1*boni1)+(s2*boni2)+(s3*boni3) << " points!" << endl;
+    cout << endl << p1 << " has scored " << p1s[current_round] << " points!" << endl;
+    sum1 += p1s[current_round]; // Add up the total score (same for each player)
+    cout << p1 << " has scored a total of " << sum1 << " points!" << endl;
 }
 void playtwo() {
     getscore();
     p2s[current_round] += s1*boni1;
     p2s[current_round] += s2*boni2;
     p2s[current_round] += s3*boni3;
-    cout << endl << p2 << " has scored " << (s1*boni1)+(s2*boni2)+(s3*boni3) << " points!" << endl;
+    cout << endl << p2 << " has scored " << p2s[current_round] << " points!" << endl;
+    sum2 += p2s[current_round];
+    cout << p2 << " has scored a total of " << sum2 << " points!" << endl;
 }
 void playthree() {
     getscore();
     p3s[current_round] += s1*boni1;
     p3s[current_round] += s2*boni2;
     p3s[current_round] += s3*boni3;
-    cout << endl << p3 << " has scored " << (s1*boni1)+(s2*boni2)+(s3*boni3) << " points!" << endl;
+    cout << endl << p3 << " has scored " << p3s[current_round] << " points!" << endl;
+    sum3 += p3s[current_round];
+    cout << p3 << " has scored a total of " << sum3 << " points!" << endl;
 }
 void playfour() {
     getscore();
-    p2s[current_round] += s1*boni1;
-    p2s[current_round] += s2*boni2;
-    p2s[current_round] += s3*boni3;
-    cout << endl << p4 << " has scored " << (s1*boni1)+(s2*boni2)+(s3*boni3) << " points!" << endl;
+    p4s[current_round] += s1*boni1;
+    p4s[current_round] += s2*boni2;
+    p4s[current_round] += s3*boni3;
+    cout << endl << p4 << " has scored " << p4s[current_round] << " points!" << endl;
+    sum4 += p4s[current_round];
+    cout << p4 << " has scored a total of " << sum4 << " points!" << endl;
 }
 
 
@@ -196,6 +199,32 @@ void highscore() {
     }
 }
 
+// Get info about amount of players and gamemode
+void setup() {
+    cout << "Players:  ";
+    cin >> players;
+
+    if (players >= 5) { // Only 4 players can join the game
+    cout << "You are too many players! Please select a smaller number of players..." << endl;
+    setup();
+    } else if (players != 1 && players != 2 && players != 3 && players != 4) {
+    cout << "Wrong input! Please use any number from 1-4" << endl;
+    setup();
+    }
+
+    cout << endl << "Game mode (Regular[1]/Highscore[0]):  ";
+    cin >> mode;
+
+    // Engage Gamemode
+    if (mode == 1) {
+        regular();
+    }else if (mode == 0) {
+        highscore();
+    } else {
+        cout << endl << "ERROR: Wrong Input" << endl;
+        setup();
+    }
+}
 
 
 int main() {
@@ -208,34 +237,21 @@ int main() {
     cout << "        2021        " << endl << endl;
     // Ask for amount of players and game mode
     setup();
-    if (players >> 4) { // Only 4 players can join the game
-    cout << "You are too many players! Please select a smaller number of players..." << endl;
-    return 0;
-    }
-    // Engage Gamemode
-    if (mode == 1) {
-        regular();
-    }else if (mode == 0) {
-        highscore();
-    } else {
-        cout << endl << "ERROR: Wrong Input" << endl;
-    }
 
-    int i;
-    int n = 3, sum1, sum2, sum3, sum4;
-    for(i = 0; i<n ; i++){
+    /* Removed this for loop which was used to calculate the total score. It is not used now, we are adding up the total score after every round...
+    for(i = 0; i<rounds ; i++){
         sum1 += p1s[i];
         }
-    for(i = 0; i<n ; i++){
+    for(i = 0; i<rounds ; i++){
         sum2 += p2s[i];
         }
-    for(i = 0; i<n ; i++){
+    for(i = 0; i<rounds ; i++){
         sum3 += p3s[i];
         }
-    for(i = 0; i<n ; i++){
+    for(i = 0; i<rounds ; i++){
         sum4 += p4s[i];
         }
-    
+    */
 
     switch (players) {
         case 1:
